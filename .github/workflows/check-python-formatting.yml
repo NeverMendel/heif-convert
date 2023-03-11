@@ -1,0 +1,15 @@
+name: Check Python Formatting
+
+on: [push, pull_request]
+
+jobs:
+  check-formatting:
+    name: Check formatting with Black
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Check file formatting with Black
+        uses: psf/black@stable
+        with:
+          options: "--check --verbose"
