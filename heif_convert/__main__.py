@@ -16,15 +16,20 @@ def parse_args():
     )
     parser.add_argument("input", type=str, nargs="+", help="HEIF input file(s)")
     parser.add_argument(
-        "--folder", type=str, default=".", help="working directory (default: '.')"
-    )
-    parser.add_argument(
         "-o",
         "--output",
         type=str,
         default="{name}",
-        help="output file name excluding its extension\n"
+        help="output file name\n"
         + "defaults to original file name (default: '{name}')",
+    )
+    parser.add_argument(
+        "-p",
+        "--path",
+        type=str,
+        default="{path}",
+        help="output file path\n"
+        + "defaults to original file path (default: '{path}')",
     )
     parser.add_argument(
         "-f",
@@ -65,9 +70,8 @@ def parse_args():
     args = parser.parse_args()
 
     for input_file in args.input:
-        input_filepath = os.path.join(args.folder, input_file)
-        if not os.path.isfile(input_filepath):
-            parser.error(f"Input file '{input_filepath}' does not exist")
+        if not os.path.isfile(input_file):
+            parser.error(f"Input file '{input_file}' does not exist")
 
     return args
 
@@ -98,18 +102,22 @@ def main():
     logging.debug("Registering HEIF opener")
     register_heif_opener()
 
-    if not os.path.isdir(args.folder):
-        logging.info("Output folder not found, creating it")
-        os.mkdir(args.folder)
-    os.chdir(args.folder)
-
     for input_file in args.input:
-        logging.info(f"Reading {input_file}")
+        logging.info(f"Reading {os.path.abspath(input_file)}")
         image = Image.open(input_file)
         output_filename = (
-            args.output.format(name=input_file.split(".")[0]) + "." + args.format
+            args.output.format(
+                name=os.path.splitext(os.path.basename(input_file))[0],
+            )
+            + "."
+            + args.format
         )
-        output_filepath = os.path.join(output_filename)
+        output_filepath = os.path.join(
+            args.path.format(
+                path=os.path.dirname(os.path.abspath(input_file)),
+            ),
+            output_filename,
+        )
         logging.info(f"Writing {output_filepath}")
         image.save(output_filepath, quality=args.quality)
         print(f"Wrote {output_filepath}")

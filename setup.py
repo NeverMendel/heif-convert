@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 with open("heif_convert/_version.py", "r") as version_file:
     __version__ = version_file.read().split("=")[1].strip().strip('"')
 
-with open("README.md", "r") as f:
+with open("README.md", "r", encoding="UTF-8") as f:
     long_description = f.read()
 
 setup(

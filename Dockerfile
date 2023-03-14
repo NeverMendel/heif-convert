@@ -16,4 +16,4 @@ RUN mkdir -p out
 # Install heif-convert
 RUN pip3 install .
 
-ENTRYPOINT ["heif-convert", "--folder", "out"]
+ENTRYPOINT ["./entrypoint.sh"]
