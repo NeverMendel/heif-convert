@@ -12,7 +12,7 @@ setup(
     url="https://github.com/NeverMendel/heif-convert",
     license="MIT",
     author="Davide Cazzin",
-    author_email="cazzindavide@gmail.com",
+    author_email="28535750+NeverMendel@users.noreply.github.com",
     description="Multi-Platform command line tool written in Python to convert HEIF images",
     long_description=long_description,
     long_description_content_type="text/markdown",
