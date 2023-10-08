@@ -119,7 +119,7 @@ def main():
             output_filename,
         )
         logging.info(f"Writing {output_filepath}")
-        image.save(output_filepath, quality=args.quality)
+        image.save(output_filepath, quality=args.quality, exif=image.getexif())
         print(f"Wrote {output_filepath}")
 
 
