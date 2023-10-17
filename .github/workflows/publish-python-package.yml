@@ -25,9 +25,6 @@ jobs:
       - name: Build project
         run: python3 -m build
 
-      - name: Remove deprecated egg file
-        run: rm -f dist/*.egg
-
       - name: Check build
         run: python3 -m twine check dist/*
 
@@ -41,6 +38,9 @@ jobs:
           echo expected=\"$expected\"
           echo actual=\"$actual\"
           [[ $expected == $actual ]]
+
+      - name: Remove deprecated egg file
+        run: rm -f dist/*.egg
 
       - name: Publish project
         run: python3 -m twine upload dist/* -u ${{ secrets.PYPY_USERNAME }} -p ${{ secrets.PYPY_PASSWORD }} --non-interactive
