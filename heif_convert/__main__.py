@@ -48,10 +48,10 @@ def parse_args():
     )
     parser.add_argument(
         "-n",
-        "--no-metadata",
-        dest="metadata",
+        "--no-exif",
+        dest="exif",
         action="store_false",
-        help="disable conversion of the Exif metadata",
+        help="Do not include EXIF metadata in the converted image",
     )
     parser.add_argument(
         "-v",
@@ -126,10 +126,10 @@ def main():
             output_filename,
         )
         logging.info(f"Writing {output_filepath}")
-        exif_data = None
-        if args.metadata:
-            exif_data = image.getexif()
-        image.save(output_filepath, quality=args.quality, exif=exif_data)
+        if args.exif:
+            image.save(output_filepath, quality=args.quality, exif=image.getexif())
+        else:
+            image.save(output_filepath, quality=args.quality)
         print(f"Wrote {output_filepath}")
 
 
