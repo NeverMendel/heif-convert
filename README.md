@@ -67,15 +67,15 @@ heif-convert *.heic -f jpg
 Convert an HEIF image to PNG using the Docker image:
 
 ```bash
-docker run -v $(pwd):/usr/app/out --rm nevermendel/heif-convert input.heic -f jpg
+docker run -v "$(pwd)":/usr/app/out --rm nevermendel/heif-convert input.heic -f jpg
 ```
 
 ## Arguments
 
 ```
 usage: heif-convert [-h] [-o OUTPUT] [-p PATH]
-                    [-f {jpg,png,webp,gif,tiff,bmp,ico}] [-q QUALITY] [-v] [-vv]
-                    [-V]
+                    [-f {jpg,png,webp,gif,tiff,bmp,ico}] [-q QUALITY] [-n] [-v]
+                    [-vv] [-V]
                     input [input ...]
 
 Command line tool to convert HEIF images
@@ -94,6 +94,7 @@ options:
                         output format (default: jpg)
   -q QUALITY, --quality QUALITY
                         output quality, integer [0, 100] (default: 90)
+  -n, --no-exif         Do not include EXIF metadata in the converted image
   -v, --verbose         enable verbose logging
   -vv, --extra-verbose  enable extra verbose logging
   -V, --version         show program's version number and exit
