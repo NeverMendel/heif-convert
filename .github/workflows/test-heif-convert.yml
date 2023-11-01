@@ -1,0 +1,44 @@
+name: Test heif-convert
+
+on: [push, pull_request]
+
+jobs:
+  test-script:
+    name: Test Script
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install heif-convert
+        run: pip3 install .
+
+      - name: Add executable permission to test-script
+        working-directory: tests
+        run: chmod +x test-script.sh
+
+      - name: Run Test
+        working-directory: tests
+        run: ./test-script.sh
+
+  test-docker-image:
+    name: Test Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: nevermendel/heif-convert
+
+      - name: Add executable permission to test-docker-image
+        working-directory: tests
+        run: chmod +x test-docker-image.sh
+
+      - name: Run Test
+        working-directory: tests
+        run: ./test-docker-image.sh
