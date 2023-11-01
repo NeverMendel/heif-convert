@@ -16,4 +16,5 @@ RUN mkdir -p out
 # Install heif-convert
 RUN pip3 install .
 
+RUN chmod +x entrypoint.sh
 ENTRYPOINT ["./entrypoint.sh"]
