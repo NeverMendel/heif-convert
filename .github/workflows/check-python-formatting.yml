@@ -7,7 +7,7 @@ jobs:
     name: Check formatting with Black
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
       - name: Check file formatting with Black
         uses: psf/black@stable
