@@ -14,7 +14,7 @@ WORKDIR /usr/app
 RUN mkdir -p out
 
 # Install heif-convert
-RUN pip3 install .
+RUN pip3 install --break-system-packages .
 
 RUN chmod +x entrypoint.sh
 ENTRYPOINT ["./entrypoint.sh"]
