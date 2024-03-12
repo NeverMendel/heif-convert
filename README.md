@@ -2,6 +2,8 @@
 
 Multi-Platform command line tool written in Python to convert HEIF images.
 
+If you find heif-convert helpful, please consider giving it a star ⭐️. Your support helps me gauge its usage and motivates further development.
+
 ## 📝 Table of Contents
 
 - [About](#about)
