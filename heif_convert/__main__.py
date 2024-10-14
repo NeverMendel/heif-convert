@@ -80,10 +80,17 @@ def parse_args():
 
     expanded_input_files = []
     for input_file in args.input:
-        expanded_input_files.extend(glob(input_file))
-    for input_file in expanded_input_files:
-        if not os.path.isfile(input_file):
-            parser.error(f"Input file '{input_file}' does not exist")
+        if "*" in input_file:
+            expanded = glob(input_file)
+            if not expanded:
+                parser.error(f"No matches found: {input_file}")
+            else:
+                expanded_input_files.extend(expanded)
+        else:
+            if not os.path.isfile(input_file):
+                parser.error(f"Input file '{input_file}' does not exist")
+            else:
+                expanded_input_files.append(input_file)
 
     args.input = expanded_input_files
 
