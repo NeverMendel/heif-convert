@@ -3,15 +3,28 @@ name: Test heif-convert
 on: [push, pull_request]
 
 jobs:
-  test-script:
-    name: Test Script
-    runs-on: ubuntu-latest
+  test-script-unix:
+    name: Test Script Unix
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install sha256sum on macos
+        if: runner.os == 'macOS'
+        run: brew install coreutils
+
       - name: Install heif-convert
-        run: pip3 install .
+        run: |
+          python3 -m venv venv
+          source venv/bin/activate
+          pip3 install .
+          echo PATH=$PATH >> $GITHUB_ENV
 
       - name: Add executable permission to test-script
         working-directory: tests
@@ -21,9 +34,24 @@ jobs:
         working-directory: tests
         run: ./test-script.sh
 
+  test-script-windows:
+    name: Test Script Windows
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install heif-convert
+        run: pip3 install .
+
+      - name: Run Test
+        working-directory: tests
+        run: .\test-script.ps1
+
   test-docker-image:
     name: Test Docker Image
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4

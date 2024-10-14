@@ -1,15 +1,22 @@
 #!/bin/bash
 
 heif-convert image.heic -f jpg -q 90
+heif-convert *.heic -f jpg -q 90 -o image-wildcard
 heif-convert image.heic -f png
 
 status_code=0
 
 expected_jpg_hash="3fb5fff1c6bb5f0f5d76d9839f82564d857e81f71e748da1ec480affde10fa8e"
 actual_jpg_hash=$(sha256sum image.jpg | awk '{print $1}')
+actual_jpg_wildcard_hash=$(sha256sum image.jpg | awk '{print $1}')
 
 if [ "$expected_jpg_hash" != "$actual_jpg_hash" ]; then
   echo "JPG image hash differs from expected. Expected: ${expected_jpg_hash}, Actual: ${actual_jpg_hash}"
+  status_code=1
+fi
+
+if [ "$expected_jpg_hash" != "$actual_jpg_wildcard_hash" ]; then
+  echo "JPG wildcard image hash differs from expected. Expected: ${expected_jpg_hash}, Actual: ${actual_jpg_wildcard_hash}"
   status_code=1
 fi
 

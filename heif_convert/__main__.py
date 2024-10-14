@@ -1,6 +1,8 @@
 import argparse
+from glob import glob
 import os
 import logging
+
 from heif_convert._version import __version__
 
 from PIL import Image
@@ -76,9 +78,14 @@ def parse_args():
 
     args = parser.parse_args()
 
+    expanded_input_files = []
     for input_file in args.input:
+        expanded_input_files.extend(glob(input_file))
+    for input_file in expanded_input_files:
         if not os.path.isfile(input_file):
             parser.error(f"Input file '{input_file}' does not exist")
+
+    args.input = expanded_input_files
 
     return args
 
