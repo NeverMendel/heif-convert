@@ -55,13 +55,13 @@ heif-convert can be used from the command line by invoking the `heif-convert` co
 Convert an HEIF image to a JPG image:
 
 ```bash
-heif-convert input.heic -f jpg
+heif-convert -f jpg input.heic
 ```
 
 Convert all HEIF images in the current folder to JPG images:
 
 ```bash
-heif-convert *.heic -f jpg
+heif-convert -f jpg *.heic
 ```
 
 ### Docker image
